@@ -1,5 +1,5 @@
 import { request } from '@mk/basic/Index'
-import { ApiResult, Banner, CategoryItem } from '../models'
+import { ApiResult, Banner, CategoryItem, MkGoodsItem } from '../models'
 
 export const getBannerApi = () => {
   return request<Banner[]>({
@@ -28,5 +28,11 @@ export const getHotApi = () => {
 export const getOneApi = () => {
   return request<ApiResult>({
     url: 'hot/oneStop'
+  })
+}
+
+export const getNewApi = () => {
+  return request<MkGoodsItem[]>({
+    url: 'home/new'
   })
 }

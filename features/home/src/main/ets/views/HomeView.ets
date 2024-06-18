@@ -1,5 +1,5 @@
 import { BreakpointKey, BreakPointType } from '@mk/basic'
-import { getBannerApi, getCategoryApi, getHotApi, getOneApi, getPreferenceApi } from '../apis'
+import { getBannerApi, getCategoryApi, getHotApi, getNewApi, getOneApi, getPreferenceApi } from '../apis'
 import { DiscountGoodsComp, DiscountType } from '../components/DiscountGoodsComp'
 import { MkGoods } from '../components/MkGoods'
 import { ApiResult, Banner, CategoryItem, MkGoodsItem, Params } from '../models'
@@ -85,11 +85,11 @@ export struct HomeView {
   // 获取接口数据
   async getData() {
     // 使用 Promise.all 同时获取多数据
-    const getArr = [getBannerApi(), getCategoryApi(), getPreferenceApi(), getHotApi(), getOneApi()]
+    const getArr = [getBannerApi(), getCategoryApi(), getPreferenceApi(), getHotApi(), getOneApi(), getNewApi()]
     const results = await Promise.all(getArr)
-    // banner数据
+    // banner
     this.banners = results[0] as Banner[]
-    // 分类数据
+    // 分类
     this.categories = results[1] as CategoryItem[]
     // 特惠推荐
     this.saleGoods = (results[2] as ApiResult).subTypes[0].goodsItems.items
@@ -97,6 +97,8 @@ export struct HomeView {
     this.hotGoods = (results[3] as ApiResult).subTypes[0].goodsItems.items
     // 一站买全
     this.oneGoods = (results[4] as ApiResult).subTypes[0].goodsItems.items
+    // 新鲜好物
+    this.newGoods = results[5] as MkGoodsItem[]
   }
 
   // 获取space的值
