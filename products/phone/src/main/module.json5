@@ -27,6 +27,7 @@
         "startWindowIcon": "$media:startIcon",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
+        "minWindowWidth": 331,
         "skills": [
           {
             "entities": [
