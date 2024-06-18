@@ -14,6 +14,7 @@ export struct HomeView {
   @State newGoods: MkGoodsItem[] = [] // 新鲜好物
   @State recommendGoods: MkGoodsItem[] = [] // 推荐商品
   @StorageProp(BreakpointKey) breakpoint: string = '' // 断点值
+  @StorageProp('safeTop') safeTop: number = 0
 
   // 生成模拟数据
   mockData() {
@@ -155,7 +156,7 @@ export struct HomeView {
             .borderRadius(20)
             .padding({ left: 12 })
           }
-          .padding({ left: 16, right: 16 })
+          .padding({ left: 16, right: 16, top: this.safeTop })
         }
         .width('100%')
 

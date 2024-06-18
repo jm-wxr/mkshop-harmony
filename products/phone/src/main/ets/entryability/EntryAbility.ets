@@ -21,6 +21,7 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
 
     windowStage.loadContent('pages/Index', (err) => {
+      // 沉浸式模式（2in1设备不需要全屏）
       if (deviceInfo.deviceType !== '2in1') {
         // 开启全屏
         const win = windowStage.getMainWindowSync()
