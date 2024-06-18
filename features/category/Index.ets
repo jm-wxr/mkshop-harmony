@@ -1,0 +1,1 @@
+export { CategoryView } from './src/main/ets/views/CategoryView'

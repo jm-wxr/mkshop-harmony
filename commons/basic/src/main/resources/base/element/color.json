@@ -1,0 +1,44 @@
+{
+  "color": [
+    {
+      "name": "black",
+      "value": "#191919"
+    },
+    {
+      "name": "white",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "text",
+      "value": "#434343"
+    },
+    {
+      "name": "gray",
+      "value": "#A6A3AD"
+    },
+    {
+      "name": "red",
+      "value": "#FF2737"
+    },
+    {
+      "name": "linear_begin",
+      "value": "#FD3F8F"
+    },
+    {
+      "name": "linear_end",
+      "value": "#FF773C"
+    },
+    {
+      "name": "yellow",
+      "value": "#F2E7DC"
+    },
+    {
+      "name": "under",
+      "value": "#F5F4F9"
+    },
+    {
+      "name": "border",
+      "value": "#e4e4e4"
+    }
+  ]
+}
