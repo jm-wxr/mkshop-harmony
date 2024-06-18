@@ -1,4 +1,4 @@
-import { BreakpointKey, BreakPointType } from '@mk/basic/Index'
+import { BreakpointKey, BreakPointType, request } from '@mk/basic'
 import { DiscountGoodsComp, DiscountType } from '../components/DiscountGoodsComp'
 import { MkGoods } from '../components/MkGoods'
 import { Banner, CategoryItem, MkGoodsItem, Params } from '../models'
@@ -77,6 +77,13 @@ export struct HomeView {
   aboutToAppear(): void {
     // mock数据
     this.mockData()
+    this.getData()
+  }
+
+  // 测试代码
+  async getData() {
+    const resData = await request<Banner[]>({ url: 'home/banner' })
+    this.banners = resData
   }
 
   // 获取space的值
