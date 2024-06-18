@@ -1,4 +1,5 @@
-import { BreakpointKey, BreakPointType, request } from '@mk/basic'
+import { BreakpointKey, BreakPointType } from '@mk/basic'
+import { getBannerApi, getCategoryApi, getHotApi, getOneApi, getPreferenceApi } from '../apis'
 import { DiscountGoodsComp, DiscountType } from '../components/DiscountGoodsComp'
 import { MkGoods } from '../components/MkGoods'
 import { Banner, CategoryItem, MkGoodsItem, Params } from '../models'
@@ -76,14 +77,26 @@ export struct HomeView {
 
   aboutToAppear(): void {
     // mock数据
-    this.mockData()
+    // this.mockData()
+    // 获取接口数据
     this.getData()
   }
 
-  // 测试代码
+  // 获取接口数据
   async getData() {
-    const resData = await request<Banner[]>({ url: 'home/banner' })
-    this.banners = resData
+    // banner数据
+    this.banners = await getBannerApi()
+    // 分类数据
+    this.categories = await getCategoryApi()
+    // 特惠推荐
+    const preRes = await getPreferenceApi()
+    this.saleGoods = preRes.subTypes[0].goodsItems.items
+    // 爆款推荐
+    const hotRes = await getHotApi()
+    this.hotGoods = hotRes.subTypes[0].goodsItems.items
+    // 一站买全
+    const oneRes = await getOneApi()
+    this.oneGoods = oneRes.subTypes[0].goodsItems.items
   }
 
   // 获取space的值
