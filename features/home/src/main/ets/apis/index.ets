@@ -36,3 +36,12 @@ export const getNewApi = () => {
     url: 'home/new'
   })
 }
+
+export const getRecommendApi = (limit: number = 8) => {
+  return request<MkGoodsItem[]>({
+    url: 'home/recommend',
+    params: {
+      limit
+    }
+  })
+}

@@ -1,8 +1,17 @@
 import { BreakpointKey, BreakPointType } from '@mk/basic'
-import { getBannerApi, getCategoryApi, getHotApi, getNewApi, getOneApi, getPreferenceApi } from '../apis'
+import {
+  getBannerApi,
+  getCategoryApi,
+  getHotApi,
+  getNewApi,
+  getOneApi,
+  getPreferenceApi,
+  getRecommendApi
+} from '../apis'
 import { DiscountGoodsComp, DiscountType } from '../components/DiscountGoodsComp'
 import { MkGoods } from '../components/MkGoods'
 import { ApiResult, Banner, CategoryItem, MkGoodsItem, Params } from '../models'
+import { promptAction } from '@kit.ArkUI'
 
 
 @Component
@@ -15,7 +24,8 @@ export struct HomeView {
   @State newGoods: MkGoodsItem[] = [] // 新鲜好物
   @State recommendGoods: MkGoodsItem[] = [] // 推荐商品
   @StorageProp(BreakpointKey) breakpoint: string = '' // 断点值
-  @StorageProp('safeTop') safeTop: number = 0
+  @StorageProp('safeTop') safeTop: number = 0 // 顶部安全高度
+  page: number = 1 // 记录推荐列表获取的数据量
 
   // 生成模拟数据
   mockData() {
@@ -85,7 +95,12 @@ export struct HomeView {
   // 获取接口数据
   async getData() {
     // 使用 Promise.all 同时获取多数据
-    const getArr = [getBannerApi(), getCategoryApi(), getPreferenceApi(), getHotApi(), getOneApi(), getNewApi()]
+    const getArr = [
+      getBannerApi(), getCategoryApi(),
+      getPreferenceApi(), getHotApi(),
+      getOneApi(), getNewApi(),
+      getRecommendApi()
+    ]
     const results = await Promise.all(getArr)
     // banner
     this.banners = results[0] as Banner[]
@@ -99,11 +114,25 @@ export struct HomeView {
     this.oneGoods = (results[4] as ApiResult).subTypes[0].goodsItems.items
     // 新鲜好物
     this.newGoods = results[5] as MkGoodsItem[]
+    // 推荐列表
+    this.recommendGoods = results[6] as MkGoodsItem[]
   }
 
   // 获取space的值
   getSpace(): number {
     return new BreakPointType({ sm: 14, md: 32, lg: 72 }).getValue(this.breakpoint) as number
+  }
+
+  // 推荐列表：获取更多数据
+  async getMoreData() {
+    if (this.recommendGoods.length < 30) {
+      this.recommendGoods = await getRecommendApi(this.page * 8)
+      this.page++
+    } else {
+      promptAction.showToast({
+        message: '没有更多啦'
+      })
+    }
   }
 
   @Builder
@@ -321,5 +350,8 @@ export struct HomeView {
       }
     }
     .scrollBar(BarState.Off)
+    .onReachEnd(() => {
+      this.getMoreData()
+    })
   }
 }
